@@ -60,8 +60,8 @@ class weapon:
         self.weapons = [ [w[0] + self.speed, w[1]] for w in self.weapons]
         self.weapons = [ [w[0], w[1]] for w in self.weapons if w[0] < 1100 ]
         
-    def pv(self):
-        for idx, self.img_val in enumerate(self.img):
+    def pv(self,monster_rect):
+        for idx, self.img_val in enumerate(self.weapons):
             self.x = self.img_val[0]
             self.y = self.img_val[1]
 
@@ -69,7 +69,10 @@ class weapon:
             self.rect = self.img.get_rect()
             self.rect.left = self.x
             self.rect.top = self.y
-    
+            
+            if monster_rect.colliderect(self.rect):
+                self.weapons.pop(idx)
+            
     def screen(self,screen):
         for self.x, self.y in self.weapons:
             screen.blit(self.img, (self.x+50,self.y+40))
@@ -199,9 +202,8 @@ def tan():
         # 충돌감지
         player.pv()
         monster.pv()
-        arrow.pv()
-        if monster.rect.colliderect(arrow.rect):
-            print("dd")
+        arrow.pv(monster.rect)
+        
         
         # 화면 그리기
         screen.blit(background, (0, 0)) # 배경 화면 
@@ -224,6 +226,7 @@ if __name__ == "__main__":
     runing = manu()
     while runing :    
         runing = tan()
+
 
 
 
